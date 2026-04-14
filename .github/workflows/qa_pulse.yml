@@ -1,0 +1,58 @@
+name: QA Pulse — Run & Report
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 8 * * 1-5"   # weekdays at 8 AM UTC
+  workflow_dispatch:          # manual trigger from GitHub UI
+
+jobs:
+  test-and-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium --with-deps
+
+      - name: Run Playwright tests
+        run: pytest --browser chromium
+        continue-on-error: true   # generate report even if tests fail
+
+      - name: Generate QA Pulse report
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python src/report_builder.py
+
+      - name: Upload dashboard artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-pulse-report-${{ github.run_number }}
+          path: |
+            output/dashboard.html
+            output/quality_report.md
+            output/test_results.json
+          retention-days: 30
+
+      - name: Save run to historical data
+        run: |
+          cp output/test_results.json data/run_$(date +%Y%m%d_%H%M%S).json
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "chore: add test run $(date +%Y-%m-%d)"
+          git push
+        continue-on-error: true   # don't fail the build if push is blocked

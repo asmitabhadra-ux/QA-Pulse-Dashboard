@@ -1,0 +1,24 @@
+{
+  "created": 1700000000,
+  "duration": 45.2,
+  "exitcode": 0,
+  "summary": {"passed": 15, "failed": 1, "total": 16},
+  "tests": [
+    {"nodeid": "tests/test_login.py::TestLogin::test_valid_login",      "outcome": "passed", "call": {"duration": 2.1}},
+    {"nodeid": "tests/test_login.py::TestLogin::test_locked_out_user",  "outcome": "passed", "call": {"duration": 1.8}},
+    {"nodeid": "tests/test_login.py::TestLogin::test_empty_username",   "outcome": "passed", "call": {"duration": 1.2}},
+    {"nodeid": "tests/test_login.py::TestLogin::test_empty_password",   "outcome": "passed", "call": {"duration": 1.1}},
+    {"nodeid": "tests/test_login.py::TestLogin::test_invalid_credentials","outcome":"passed","call":{"duration":1.4}},
+    {"nodeid": "tests/test_login.py::TestLogin::test_logout",           "outcome": "passed", "call": {"duration": 2.5}},
+    {"nodeid": "tests/test_inventory.py::TestInventory::test_inventory_loads",    "outcome": "passed", "call": {"duration": 1.9}},
+    {"nodeid": "tests/test_inventory.py::TestInventory::test_product_count",      "outcome": "passed", "call": {"duration": 1.7}},
+    {"nodeid": "tests/test_inventory.py::TestInventory::test_sort_price_low_to_high","outcome":"passed","call":{"duration":2.3}},
+    {"nodeid": "tests/test_inventory.py::TestInventory::test_sort_price_high_to_low","outcome":"passed","call":{"duration":2.1}},
+    {"nodeid": "tests/test_inventory.py::TestInventory::test_sort_name_a_to_z",   "outcome": "passed", "call": {"duration": 1.8}},
+    {"nodeid": "tests/test_inventory.py::TestInventory::test_product_detail_navigation","outcome":"failed","call":{"duration":3.1,"crash":{"message":"Expected URL to contain inventory-item"}}},
+    {"nodeid": "tests/test_inventory.py::TestInventory::test_back_to_products",   "outcome": "passed", "call": {"duration": 2.0}},
+    {"nodeid": "tests/test_cart.py::TestCart::test_add_item_to_cart",             "outcome": "passed", "call": {"duration": 2.4}},
+    {"nodeid": "tests/test_cart.py::TestCart::test_add_multiple_items",           "outcome": "passed", "call": {"duration": 2.8}},
+    {"nodeid": "tests/test_cart.py::TestCart::test_remove_item_from_inventory",   "outcome": "passed", "call": {"duration": 2.2}}
+  ]
+}
